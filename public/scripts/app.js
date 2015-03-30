@@ -23,8 +23,20 @@ $(document).ready(function () {
 
         setMapBounds();
 
-        //$.get('/days', function (data) {console.log('GET response data', data);});
-        //$.post('/days', function (data) {console.log('POST response data', data);});
+        // add item to day model in mongoDB
+        // find out what type of item has been added
+        var attraction = item.type;
+        console.log(item.text);
+
+        var attractionArr = matchCorrectArray(attraction);
+        var attractionData = (attractionArr.filter(function (h) {
+            return h.name === item.text;
+        }))[0];
+
+        $.post('/days/' + currentDay + '/' + attraction, attractionData, 
+            function (data) {
+            console.log('POST add-item data');
+        });
 
     });
 
@@ -47,7 +59,18 @@ $(document).ready(function () {
 
         $newDayButton.trigger('click');
 
-        $.post('/days', function (data) {console.log('POST response data');});
+        var newDay = {
+            number: currentDay,
+            hotel: {},
+            restaurants: [],
+            thingsToDo: []
+        }
+
+        $.post('/days', newDay, function (data) {
+            console.log('POST response data');
+            console.log(data.message);
+            console.log(data.day);
+        });
 
     });
 
@@ -69,9 +92,13 @@ $(document).ready(function () {
 
         setMapBounds();
 
+        // get request to /days/:id
+
     });
 
     $removeDayButton.on('click', function () {
+
+        var daynum = currentDay;
 
         removeDayMarkers(currentDay);
         days.splice(currentDay - 1, 1);
@@ -87,7 +114,26 @@ $(document).ready(function () {
 
         setMapBounds();
 
+        // dayRouter.delete event here
+        $.ajax({
+            url: '/days/' + daynum,
+            type: 'DELETE',
+            success: function (result) {
+                console.log('deleted day ' + daynum);
+            }
+        });
     });
+    
+    function matchCorrectArray (type) {
+        switch (type) {
+            case 'hotel':
+        return all_hotel;
+            case 'restaurant':
+        return all_restaurant;
+            case 'activity':
+        return all_activity;
+        }
+    }
 
     function setMapBounds() {
 
@@ -178,9 +224,9 @@ $(document).ready(function () {
     function getLngLat(item) {
 
         var typeToCollectionDict = {
-            'hotel': all_hotels,
-            'restaurant': all_restaurants,
-            'activity': all_things_to_do
+            'hotel': all_hotel,
+            'restaurant': all_restaurant,
+            'activity': all_activity
         };
 
         var collection = typeToCollectionDict[item.type];
