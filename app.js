@@ -3,7 +3,9 @@ var express    = require('express'),
     swig       = require('swig'),
     bodyParser = require('body-parser'),
     logger     = require('morgan')('dev'),
-    nodeSass   = require('node-sass-middleware');
+    nodeSass   = require('node-sass-middleware'),
+    days       = require('./routes/days');
+
 
 // app instantiation
 var app = express();
@@ -34,6 +36,9 @@ app.use(bodyParser.urlencoded({extended: true}));
 
 // root route
 app.get('/', require('./routes'));
+
+// days route
+app.use("/days", days);
 
 // catch 404 (i.e., no routes were hit) and forward to error handler
 app.use(function(req, res, next) {
