@@ -4,13 +4,27 @@ var models = require('../models');
 var async = require('async');
 var bluebird = require('bluebird');
 
+
+// 1. When a place is added to your Trip, 
+// you need to make an AJAX request to the server to save that Day model.
+// 2. When your Trip plan page is reloaded, you need to load all the 
+// previously saved trip items from the database to your Trip Plan.
+
 // GET /days
 dayRouter.get('/', function (req, res, next) {
     // serves up all days as json
+    console.log("HI");
 });
 // POST /days
 dayRouter.post('/', function (req, res, next) {
     // creates a new day and serves it as json
+    models.Day.create(req.body, function(err, day){
+        if(err){return next(err)}
+            res.json({
+                message: "Created Successfully",
+                day: day
+            });
+    });
 });
 // GET /days/:id
 dayRouter.get('/:id', function (req, res, next) {
