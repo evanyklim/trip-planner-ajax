@@ -39,9 +39,16 @@ dayRouter.get('/:id', function (req, res, next) {
 dayRouter.delete('/:id', function (req, res, next) {
     // deletes a particular day
     var id = req.params.id;
+
     models.Day.remove({ number: id }, function (err, data) {
         if (err) { return next(err) }
-        res.json( { message: 'Deleted Successfully'} );
+        
+        // update numbers
+        models.Day.update( { $gt: id }, { $inc: { number: -1 }}, 
+            function (err, updated) {
+                if (err) return next(err)
+                res.json(updated);
+        } );
     });
 });
 

@@ -109,19 +109,20 @@ $(document).ready(function () {
             $(this).text(index + 1);
         });
 
+        // dayRouter.delete event here
+        $.ajax({
+            type: 'DELETE',
+            url: '/days/' + daynum
+         })//.done(function (result) {
+        //         console.log('deleted day ' + daynum);
+        //     });
+
         currentDay = 1;
         $('.select-day').eq(0).trigger('click');
 
         setMapBounds();
 
-        // dayRouter.delete event here
-        $.ajax({
-            url: '/days/' + daynum,
-            type: 'DELETE',
-            success: function (result) {
-                console.log('deleted day ' + daynum);
-            }
-        });
+
     });
     
     function matchCorrectArray (type) {
