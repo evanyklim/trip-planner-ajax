@@ -77,9 +77,9 @@
   <script>
     // here we use swig to turn the `hotels` into a stringified representation. But because we add this string to some JS in a script tag, when the client loads it, it will actually set that object as a variable. So now we have an `all_hotels` array on the front-end — check it out in your console!
     {% autoescape false %}
-    var all_hotels = {{ hotels | json }};
-    var all_restaurants = {{ restaurants | json }};
-    var all_things_to_do = {{ thingsToDo | json }};
+    var all_hotel = {{ hotels | json }};
+    var all_restaurant = {{ restaurants | json }};
+    var all_activity = {{ thingsToDo | json }};
     {% endautoescape %}
   </script>
 
