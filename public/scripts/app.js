@@ -23,6 +23,9 @@ $(document).ready(function () {
 
         setMapBounds();
 
+        //$.get('/days', function (data) {console.log('GET response data', data);});
+        //$.post('/days', function (data) {console.log('POST response data', data);});
+
     });
 
     $('.chosen-group').on('click', '.remove', function () {
@@ -43,6 +46,8 @@ $(document).ready(function () {
         days.push([]);
 
         $newDayButton.trigger('click');
+
+        $.post('/days', function (data) {console.log('POST response data');});
 
     });
 
@@ -328,11 +333,11 @@ $(document).ready(function () {
         return html;
     }
 
-$.get('/days', function (data) {console.log('GET response data', data)});
-// =&gt; should log an empty array
-$.post('/days', function (data) {console.log('POST response data', data)});
-// =&gt; should log a new day
-$.get('/days', function (data) {console.log('GET response data', data)});
-// =&gt; should now log an array with the new day in it
+// $.get('/days', function (data) {console.log('GET response data', data);});
+// // =&gt; should log an empty array
+// $.post('/days', function (data) {console.log('POST response data', data);});
+// // =&gt; should log a new day
+// $.get('/days', function (data) {console.log('GET response data', data);});
+// // =&gt; should now log an array with the new day in it
 
 });
