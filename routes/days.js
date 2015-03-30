@@ -47,7 +47,4 @@ attractionRouter.delete('/thingsToDo/:id', function (req, res, next) {
     // deletes a reference to a thing to do
 });
 
-
-
-
 module.exports = dayRouter;
