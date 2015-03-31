@@ -59,20 +59,22 @@ $(document).ready(function () {
 
         $newDayButton.trigger('click');
 
+        addDaytoDB();
+    });
+
+    function addDaytoDB () {
         var newDay = {
             number: currentDay,
             hotel: {},
             restaurants: [],
             thingsToDo: []
         }
-
         $.post('/days', newDay, function (data) {
             console.log('POST response data');
             console.log(data.message);
             console.log(data.day);
         });
-
-    });
+    };
 
     $('.day-buttons').on('click', '.select-day', function () {
 
@@ -113,16 +115,14 @@ $(document).ready(function () {
         $.ajax({
             type: 'DELETE',
             url: '/days/' + daynum
-         })//.done(function (result) {
-        //         console.log('deleted day ' + daynum);
-        //     });
+        }).done(function (result) {
+            console.log('deleted day ' + daynum);
+        });
 
         currentDay = 1;
         $('.select-day').eq(0).trigger('click');
 
         setMapBounds();
-
-
     });
     
     function matchCorrectArray (type) {

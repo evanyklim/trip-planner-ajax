@@ -42,12 +42,13 @@ dayRouter.delete('/:id', function (req, res, next) {
 
     models.Day.remove({ number: id }, function (err, data) {
         if (err) { return next(err) }
-        
         // update numbers
-        models.Day.update( { $gt: id }, { $inc: { number: -1 }}, 
-            function (err, updated) {
+        models.Day.update( { number: { $gt: id } }, 
+                                     { $inc: { number: -1 } }, 
+                                     { multi: true },
+            function (err) {
                 if (err) return next(err)
-                res.json(updated);
+                res.json(data);
         } );
     });
 });
