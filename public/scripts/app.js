@@ -40,6 +40,17 @@ $(document).ready(function () {
 
     });
 
+    function matchCorrectArray (type) {
+        switch (type) {
+            case 'hotel':
+        return all_hotel;
+            case 'restaurant':
+        return all_restaurant;
+            case 'activity':
+        return all_activity;
+        }
+    }
+
     $('.chosen-group').on('click', '.remove', function () {
         var $item = $(this).parent();
         var name = $item.find('.title').text();
@@ -63,11 +74,13 @@ $(document).ready(function () {
     });
 
     function addDaytoDB () {
+
+        // var blankHotel = { name: 'No Hotel' };
         var newDay = {
-            number: currentDay,
-            hotel: {},
-            restaurants: [],
-            thingsToDo: []
+            // hotel: blankHotel,
+            // restaurants: [],
+            // thingsToDo: [],
+            number: currentDay
         }
         $.post('/days', newDay, function (data) {
             console.log('POST response data');
@@ -95,7 +108,9 @@ $(document).ready(function () {
         setMapBounds();
 
         // get request to /days/:id
-
+        $.get('/' + currentDay, { number: currentDay }, function (data) {
+            console.log(data);
+        });
     });
 
     $removeDayButton.on('click', function () {
@@ -124,17 +139,7 @@ $(document).ready(function () {
 
         setMapBounds();
     });
-    
-    function matchCorrectArray (type) {
-        switch (type) {
-            case 'hotel':
-        return all_hotel;
-            case 'restaurant':
-        return all_restaurant;
-            case 'activity':
-        return all_activity;
-        }
-    }
+
 
     function setMapBounds() {
 

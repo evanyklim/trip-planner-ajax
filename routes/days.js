@@ -1,5 +1,5 @@
 var dayRouter = require('express').Router();
-var attractionRouter = require('express').Router();
+var attractionRouter = require('express').Router();  // mergeParams
 var models = require('../models');
 var async = require('async');
 var bluebird = require('bluebird');
@@ -33,7 +33,10 @@ dayRouter.post('/', function (req, res, next) {
 // GET /days/:id
 dayRouter.get('/:id', function (req, res, next) {
     // serves a particular day as json
-
+    // models.Day.find( { req.body }, function (err, data) {
+    //     if (err) { return next(err) }
+    //     res.json(data);
+    // });
 });
 // DELETE /days/:id
 dayRouter.delete('/:id', function (req, res, next) {
@@ -54,24 +57,13 @@ dayRouter.delete('/:id', function (req, res, next) {
 });
 
 dayRouter.use('/:id', attractionRouter);
+
 // POST /days/:id/hotel
 attractionRouter.post('/hotel', function (req, res, next) {
     // creates a reference to the hotel
 
-    console.log(req.body);
-    console.log('hi!')
+    console.log('hi!');
 
-    // create a day (?) and add the hotel to it (?)
-    // 
-
-    // models.Hotel.create(req.body, function (err, hotel) {
-    //     if(err){return next(err)}
-    //     console.log(req.body);
-    //     res.json({
-    //         message: "Created Successfully",
-    //         hotel: hotel
-    //     });
-    // });
 });
 // DELETE /days/:id/hotel
 attractionRouter.delete('/hotel', function (req, res, next) {
